@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pre-order your food at Pori Cardiff. Choose your brunch or sando ahead of time and collect at your table. 4 Trade Street, Cardiff CF10 5DR.">
+  <title>Pre-order | Pori Cardiff</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ====================================================
+       DESIGN DIALS: VARIANCE=7 | MOTION=5 | DENSITY=3
+       PALETTE: Forest family (deep sage green + bone off-white)
+       SERIF: Cormorant Garamond
+       NO em-dashes anywhere on this page
+    ==================================================== */
+
+    :root {
+      --c-bg:           #0a0604;
+      --c-bg-deeper:    #080402;
+      --c-green-deep:   #1e2f26;
+      --c-green-mid:    #7daa8c;
+      --c-green-light:  #9ec0aa;
+      --c-text:         #f0ede4;
+      --c-text-muted:   rgba(240, 237, 228, 0.58);
+      --c-off-white:    #f5f2eb;
+      --c-border:       rgba(240, 237, 228, 0.12);
+
+      --font-serif: 'Cormorant Garamond', 'Georgia', serif;
+      --font-sans:  'Outfit', system-ui, sans-serif;
+
+      --radius-sm: 3px;
+
+      --ease-base: 0.45s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    /* ====================================================
+       RESET
+    ==================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+    body {
+      background-color: #0a0604;
+      background-image:
+        linear-gradient(rgba(10, 6, 3, 0.72), rgba(10, 6, 3, 0.72)),
+        url('images/wood-bg-2.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center center;
+      color: var(--c-text);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { text-decoration: none; }
+    button { cursor: pointer; }
+
+    /* ====================================================
+       NAVIGATION
+    ==================================================== */
+    .nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 44px;
+      height: 68px;
+      background: rgba(10, 6, 3, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(240, 237, 228, 0.08);
+      transition: background var(--ease-base), border-color var(--ease-base);
+    }
+    .nav-logo img {
+      height: 40px;
+      width: auto;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .nav-reserve-link {
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--c-off-white);
+      border: 1px solid rgba(240, 237, 228, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      transition: background var(--ease-base);
+      white-space: nowrap;
+    }
+    .nav-reserve-link:hover { background: rgba(240, 237, 228, 0.08); }
+    .nav-btn {
+      background: none;
+      border: none;
+      padding: 6px;
+      color: var(--c-off-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity var(--ease-base);
+      line-height: 1;
+    }
+    .nav-btn:hover { opacity: 0.55; }
+    .nav-btn svg {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .nav-btn.ig svg { stroke: none; fill: currentColor; }
+
+    /* ====================================================
+       FULL-SCREEN NAV OVERLAY
+    ==================================================== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 8000;
+      background-color: #0a0604;
+      background-image:
+        linear-gradient(rgba(8, 4, 2, 0.80), rgba(8, 4, 2, 0.80)),
+        url('images/wood-bg-1.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  visibility 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .nav-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-overlay-close {
+      position: absolute;
+      top: 24px;
+      right: 36px;
+      background: none;
+      border: none;
+      color: rgba(240, 237, 228, 0.35);
+      font-size: 28px;
+      font-weight: 200;
+      line-height: 1;
+      padding: 8px;
+      cursor: pointer;
+      transition: color var(--ease-base);
+    }
+    .nav-overlay-close:hover { color: rgba(240, 237, 228, 0.75); }
+    .nav-overlay-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-overlay-link {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 5vw, 68px);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(240, 237, 228, 0.80);
+      letter-spacing: -0.01em;
+      line-height: 1.14;
+      display: inline-block;
+      transition: color 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .nav-overlay-link:hover {
+      color: #f0ede4;
+      transform: translateX(14px);
+    }
+    .nav-overlay-link.current { color: rgba(240, 237, 228, 0.28); pointer-events: none; }
+    .nav-overlay-foot {
+      position: absolute;
+      bottom: 44px;
+      left: 60px;
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+    .nav-overlay-foot-text {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      color: rgba(240, 237, 228, 0.22);
+    }
+    .nav-overlay-foot-link {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      color: rgba(240, 237, 228, 0.32);
+      transition: color 0.3s ease;
+    }
+    .nav-overlay-foot-link:hover { color: rgba(240, 237, 228, 0.65); }
+
+    /* ====================================================
+       PAGE HEADER
+    ==================================================== */
+    .page-header {
+      padding-top: 140px;
+      padding-bottom: 60px;
+      padding-left: 60px;
+      padding-right: 60px;
+      border-bottom: 1px solid rgba(240, 237, 228, 0.08);
+    }
+    .page-header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .page-eyebrow {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 400;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--c-green-mid);
+      margin-bottom: 20px;
+    }
+    .page-heading {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(52px, 7vw, 96px);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--c-off-white);
+      margin-bottom: 18px;
+    }
+    .page-sub {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--c-text-muted);
+      max-width: 48ch;
+      margin-bottom: 10px;
+    }
+    .page-demo-note {
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: rgba(240, 237, 228, 0.18);
+    }
+
+    /* ====================================================
+       PRE-ORDER MAIN LAYOUT
+    ==================================================== */
+    .preorder-body {
+      padding: 60px 60px 100px;
+    }
+    .preorder-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .preorder-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* ====================================================
+       PRE-ORDER FOOD SECTIONS
+    ==================================================== */
+    .po-section {
+      margin-bottom: 44px;
+    }
+    .po-section:last-child {
+      margin-bottom: 0;
+    }
+    .po-section-label {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.30em;
+      text-transform: uppercase;
+      color: var(--c-green-mid);
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--c-border);
+      display: block;
+      margin-bottom: 0;
+    }
+    .po-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Individual food item card */
+    .po-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(240, 237, 228, 0.10);
+      gap: 14px;
+    }
+    .po-item:nth-child(odd) {
+      padding-right: 28px;
+      border-right: 1px solid rgba(240, 237, 228, 0.07);
+    }
+    .po-item:nth-child(even) {
+      padding-left: 28px;
+    }
+    .po-item-info { flex: 1; min-width: 0; }
+    .po-item-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+    .po-item-name {
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--c-text);
+    }
+    .po-item-price {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--c-text);
+      flex-shrink: 0;
+    }
+    .po-item-desc {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 300;
+      line-height: 1.55;
+      color: var(--c-text-muted);
+    }
+    .po-btn-add {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(240, 237, 228, 0.28);
+      background: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-size: 20px;
+      font-weight: 300;
+      color: rgba(240, 237, 228, 0.58);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background var(--ease-base), border-color var(--ease-base), color var(--ease-base);
+      line-height: 1;
+      padding-bottom: 1px;
+    }
+    .po-btn-add:hover {
+      background: var(--c-green-deep);
+      border-color: var(--c-green-deep);
+      color: var(--c-off-white);
+    }
+    .po-btn-add.has-qty {
+      background: var(--c-green-deep);
+      border-color: var(--c-green-deep);
+      color: var(--c-off-white);
+      font-size: 12px;
+      font-weight: 500;
+      padding-bottom: 0;
+    }
+
+    /* ====================================================
+       ORDER SUMMARY SIDEBAR
+    ==================================================== */
+    .order-summary {
+      position: sticky;
+      top: 84px;
+      background: var(--c-green-deep);
+      border-radius: var(--radius-sm);
+      padding: 32px 28px;
+    }
+    .order-title {
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(245, 242, 235, 0.38);
+      margin-bottom: 22px;
+    }
+    .order-empty {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(245, 242, 235, 0.25);
+      font-style: italic;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .order-lines { min-height: 40px; }
+    .order-line {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(245, 242, 235, 0.07);
+    }
+    .order-line-name {
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 300;
+      color: rgba(245, 242, 235, 0.65);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .order-line-qty {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 300;
+      color: rgba(245, 242, 235, 0.32);
+      flex-shrink: 0;
+    }
+    .order-line-price {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(245, 242, 235, 0.65);
+      flex-shrink: 0;
+    }
+    .order-line-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(245, 242, 235, 0.20);
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1;
+      padding: 0;
+      transition: color var(--ease-base);
+      flex-shrink: 0;
+    }
+    .order-line-remove:hover { color: rgba(245, 242, 235, 0.50); }
+    .order-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 18px 0 0;
+      margin-top: 10px;
+      border-top: 1px solid rgba(245, 242, 235, 0.12);
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: rgba(245, 242, 235, 0.40);
+    }
+    #order-total {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 300;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--c-off-white);
+    }
+    .po-form {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(245, 242, 235, 0.12);
+    }
+    .po-f-group { margin-bottom: 12px; }
+    .po-f-group:last-child { margin-bottom: 0; }
+    .po-f-label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 8.5px;
+      font-weight: 500;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: rgba(245, 242, 235, 0.35);
+      margin-bottom: 6px;
+    }
+    .po-f-input {
+      width: 100%;
+      background: rgba(245, 242, 235, 0.07);
+      border: 1px solid rgba(245, 242, 235, 0.14);
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(245, 242, 235, 0.80);
+      outline: none;
+      transition: border-color var(--ease-base), background var(--ease-base);
+    }
+    .po-f-input::placeholder { color: rgba(245, 242, 235, 0.22); }
+    .po-f-input:focus {
+      border-color: rgba(245, 242, 235, 0.32);
+      background: rgba(245, 242, 235, 0.11);
+    }
+    .btn-preorder {
+      width: 100%;
+      margin-top: 20px;
+      background: var(--c-off-white);
+      color: var(--c-green-deep);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 16px 24px;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      transition: background var(--ease-base), opacity var(--ease-base);
+    }
+    .btn-preorder:disabled { opacity: 0.28; cursor: not-allowed; }
+    .btn-preorder:not(:disabled):hover { background: #e6e3da; }
+    .preorder-caveat {
+      margin-top: 12px;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      color: rgba(245, 242, 235, 0.18);
+      text-align: center;
+      letter-spacing: 0.06em;
+    }
+    .order-confirm {
+      padding: 12px 0;
+    }
+    .order-confirm-title {
+      font-family: var(--font-serif);
+      font-size: 30px;
+      font-weight: 300;
+      color: var(--c-off-white);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .order-confirm-body {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: rgba(245, 242, 235, 0.42);
+    }
+
+    /* ====================================================
+       FOOTER
+    ==================================================== */
+    .footer {
+      background: #0b1009;
+      padding: 68px 60px 40px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(245, 242, 235, 0.08);
+    }
+    .footer-logo img { height: 48px; width: auto; opacity: 0.85; }
+    .footer-logo-text {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: rgba(245, 242, 235, 0.5);
+      display: none;
+    }
+    .footer-col p,
+    .footer-col address {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 300;
+      font-style: normal;
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+      color: rgba(245, 242, 235, 0.40);
+    }
+    .footer-col-label {
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245, 242, 235, 0.24);
+      margin-bottom: 14px;
+    }
+    .footer-social-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(245, 242, 235, 0.38);
+      margin-bottom: 12px;
+      transition: color var(--ease-base);
+    }
+    .footer-social-link:last-child { margin-bottom: 0; }
+    .footer-social-link:hover { color: rgba(245, 242, 235, 0.70); }
+    .footer-social-link svg { width: 15px; height: 15px; flex-shrink: 0; fill: currentColor; }
+    .footer-base {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-base p {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      color: rgba(245, 242, 235, 0.20);
+      letter-spacing: 0.08em;
+    }
+
+    /* ====================================================
+       FADE-UP SCROLL ANIMATIONS
+    ==================================================== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.85s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  transform 0.85s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .fade-up.d1 { transition-delay: 0.10s; }
+    .fade-up.d2 { transition-delay: 0.20s; }
+    .fade-up.d3 { transition-delay: 0.32s; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ====================================================
+       RESPONSIVE
+    ==================================================== */
+    @media (max-width: 1024px) {
+      .nav { padding: 0 28px; }
+      .page-header { padding-left: 40px; padding-right: 40px; }
+      .preorder-body { padding: 48px 40px 80px; }
+      .preorder-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+    }
+
+    @media (max-width: 640px) {
+      .nav { padding: 0 20px; height: 58px; }
+      .nav-logo img { height: 34px; }
+      .nav-reserve-link { display: none; }
+
+      .page-header { padding-top: 100px; padding-bottom: 44px; padding-left: 24px; padding-right: 24px; }
+      .preorder-body { padding: 36px 24px 72px; }
+
+      .po-grid { grid-template-columns: 1fr; }
+      .po-item:nth-child(odd),
+      .po-item:nth-child(even) {
+        padding-left: 0;
+        padding-right: 0;
+        border-right: none;
+      }
+
+      .footer { padding: 44px 24px 28px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+      .footer-base { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+      .nav-overlay { padding: 64px 28px; }
+      .nav-overlay-foot { left: 28px; }
+    }
+
+    /* ====================================================
+       REDUCED MOTION
+    ==================================================== */
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up { opacity: 1; transform: none; transition: none; }
+      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" id="site-nav" role="navigation" aria-label="Site navigation">
+    <a href="index.html" class="nav-logo" aria-label="Pori Cardiff home">
+      <img src="images/pori-logo.png" alt="Pori Cardiff" width="44" height="44" onerror="this.style.display='none'">
+    </a>
+    <div class="nav-right">
+      <a href="reserve.html" class="nav-reserve-link">Reserve</a>
+      <a href="https://www.instagram.com/pori.cardiff/" target="_blank" rel="noopener noreferrer" class="nav-btn ig" aria-label="Follow on Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        </svg>
+      </a>
+      <button class="nav-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== NAV OVERLAY ========== -->
+  <div class="nav-overlay" id="nav-overlay" role="dialog" aria-label="Site navigation" aria-hidden="true">
+    <button class="nav-overlay-close" id="nav-overlay-close" aria-label="Close menu">&times;</button>
+    <nav class="nav-overlay-links" aria-label="Pages">
+      <a href="index.html"     class="nav-overlay-link">Home</a>
+      <a href="our-story.html" class="nav-overlay-link">Our Story</a>
+      <a href="gallery.html"   class="nav-overlay-link">Gallery</a>
+      <a href="find-us.html"   class="nav-overlay-link">Find Us</a>
+      <a href="contact.html"   class="nav-overlay-link">Contact</a>
+      <a href="dietary.html"   class="nav-overlay-link">Dietary</a>
+      <a href="reserve.html"   class="nav-overlay-link">Reserve</a>
+      <a href="preorder.html"  class="nav-overlay-link current">Pre-order</a>
+    </nav>
+    <div class="nav-overlay-foot">
+      <span class="nav-overlay-foot-text">4 Trade Street, Cardiff CF10 5DR</span>
+      <a href="https://www.instagram.com/pori.cardiff/" class="nav-overlay-foot-link" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </div>
+  </div>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="page-header" aria-labelledby="page-heading">
+    <div class="page-header-inner">
+      <span class="page-eyebrow fade-up">Pori Cardiff</span>
+      <h1 class="page-heading fade-up d1" id="page-heading">Pre-order</h1>
+      <p class="page-sub fade-up d2">Choose your food ahead of time. Collect at your table.</p>
+      <p class="page-demo-note fade-up d3">Design preview only. No payment is taken.</p>
+    </div>
+  </header>
+
+  <!-- ========== PRE-ORDER BODY ========== -->
+  <main class="preorder-body">
+    <div class="preorder-inner">
+      <div class="preorder-layout">
+
+        <!-- LEFT: Food item grid -->
+        <div class="preorder-food" aria-label="Food items">
+
+          <!-- BRUNCH -->
+          <section class="po-section fade-up" aria-labelledby="po-sec-brunch">
+            <span class="po-section-label" id="po-sec-brunch">Brunch</span>
+            <div class="po-grid" role="list">
+
+              <div class="po-item" role="listitem" data-name="Full Pori" data-price="14">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Full Pori</span>
+                    <span class="po-item-price">&pound;14</span>
+                  </div>
+                  <p class="po-item-desc">Smoked streaky, sausage, fried egg, mushrooms, cherry toms, house beans</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Full Pori to order">+</button>
+              </div>
+
+              <div class="po-item" role="listitem" data-name="Full Vori" data-price="14">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Full Vori</span>
+                    <span class="po-item-price">&pound;14</span>
+                  </div>
+                  <p class="po-item-desc">Grilled halloumi, creamed leek and spinach, fried egg, cherry toms, house beans (v)</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Full Vori to order">+</button>
+              </div>
+
+              <div class="po-item" role="listitem" data-name="Breakfast Bun" data-price="9">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Breakfast Bun</span>
+                    <span class="po-item-price">&pound;9</span>
+                  </div>
+                  <p class="po-item-desc">Choice of sausage or bacon, fried egg, sriracha butter, pickled cucumber</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Breakfast Bun to order">+</button>
+              </div>
+
+              <div class="po-item" role="listitem" data-name="Avo Toast" data-price="10">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Avo Toast</span>
+                    <span class="po-item-price">&pound;10</span>
+                  </div>
+                  <p class="po-item-desc">Sourdough, crushed avocado, chilli flakes, lemon, seeds (vg)</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Avo Toast to order">+</button>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- HUEVOS -->
+          <section class="po-section fade-up" aria-labelledby="po-sec-huevos">
+            <span class="po-section-label" id="po-sec-huevos">Huevos</span>
+            <div class="po-grid" role="list">
+
+              <div class="po-item" role="listitem" data-name="Huevos Rancheros" data-price="11">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Huevos Rancheros</span>
+                    <span class="po-item-price">&pound;11</span>
+                  </div>
+                  <p class="po-item-desc">Corn tortillas, roasted tomato salsa, fried eggs, feta, coriander (v)</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Huevos Rancheros to order">+</button>
+              </div>
+
+              <div class="po-item" role="listitem" data-name="Patatas con Chorizo" data-price="13">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Patatas con Chorizo</span>
+                    <span class="po-item-price">&pound;13</span>
+                  </div>
+                  <p class="po-item-desc">Crispy potatoes, chorizo, poached eggs, smoked paprika aioli</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Patatas con Chorizo to order">+</button>
+              </div>
+
+              <div class="po-item" role="listitem" data-name="Rarebit Hock" data-price="12">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Rarebit Hock</span>
+                    <span class="po-item-price">&pound;12</span>
+                  </div>
+                  <p class="po-item-desc">Pulled ham hock, toasted sourdough, torched rarebit sauce, soft egg</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Rarebit Hock to order">+</button>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- STACKS -->
+          <section class="po-section fade-up" aria-labelledby="po-sec-stacks">
+            <span class="po-section-label" id="po-sec-stacks">Stacks</span>
+            <div class="po-grid" role="list">
+
+              <div class="po-item" role="listitem" data-name="Maple Bacon" data-price="11">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Maple Bacon</span>
+                    <span class="po-item-price">&pound;11</span>
+                  </div>
+                  <p class="po-item-desc">Buttermilk pancakes, crispy bacon, maple syrup, whipped butter</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Maple Bacon to order">+</button>
+              </div>
+
+              <div class="po-item" role="listitem" data-name="Berry Stack" data-price="11">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Berry Stack</span>
+                    <span class="po-item-price">&pound;11</span>
+                  </div>
+                  <p class="po-item-desc">Buttermilk pancakes, mixed berries, whipped cream, maple syrup (v)</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Berry Stack to order">+</button>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- SANDOS -->
+          <section class="po-section fade-up" aria-labelledby="po-sec-sandos">
+            <span class="po-section-label" id="po-sec-sandos">Sandos</span>
+            <div class="po-grid" role="list">
+
+              <div class="po-item" role="listitem" data-name="Reuben" data-price="10">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Reuben</span>
+                    <span class="po-item-price">&pound;10</span>
+                  </div>
+                  <p class="po-item-desc">Salt beef, Swiss cheese, sauerkraut, Russian dressing, rye bread</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Reuben to order">+</button>
+              </div>
+
+              <div class="po-item" role="listitem" data-name="Fried Chicken" data-price="11">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Fried Chicken</span>
+                    <span class="po-item-price">&pound;11</span>
+                  </div>
+                  <p class="po-item-desc">Buttermilk fried chicken, hot sauce, slaw, pickles, brioche</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Fried Chicken to order">+</button>
+              </div>
+
+              <div class="po-item" role="listitem" data-name="Halloumi" data-price="9">
+                <div class="po-item-info">
+                  <div class="po-item-row">
+                    <span class="po-item-name">Halloumi</span>
+                    <span class="po-item-price">&pound;9</span>
+                  </div>
+                  <p class="po-item-desc">Grilled halloumi, roasted red pepper, pesto, sourdough (v)</p>
+                </div>
+                <button class="po-btn-add" aria-label="Add Halloumi to order">+</button>
+              </div>
+
+            </div>
+          </section>
+
+        </div><!-- /preorder-food -->
+
+        <!-- RIGHT: Order summary sidebar -->
+        <aside class="order-summary" id="order-summary-panel" aria-label="Your order">
+          <p class="order-title">Your order</p>
+          <div class="order-lines" id="order-lines" aria-live="polite" aria-atomic="false">
+            <p class="order-empty">No items added yet.</p>
+          </div>
+          <div class="order-total-row" id="order-total-row" style="display:none;" aria-live="polite">
+            <span>Total</span>
+            <span id="order-total">&pound;0.00</span>
+          </div>
+          <div class="po-form" id="po-form" style="display:none;">
+            <div class="po-f-group">
+              <label class="po-f-label" for="po-table">Table number</label>
+              <input class="po-f-input" type="text" id="po-table" name="table" placeholder="e.g. 4" autocomplete="off">
+            </div>
+            <div class="po-f-group">
+              <label class="po-f-label" for="po-name">Your name</label>
+              <input class="po-f-input" type="text" id="po-name" name="name" placeholder="First name" autocomplete="given-name">
+            </div>
+            <div class="po-f-group">
+              <label class="po-f-label" for="po-contact">Contact (phone or email)</label>
+              <input class="po-f-input" type="text" id="po-contact" name="contact" placeholder="For updates" autocomplete="email">
+            </div>
+          </div>
+          <button class="btn-preorder" id="btn-preorder" disabled aria-disabled="true">Submit Pre-order</button>
+          <p class="preorder-caveat">Design preview only. No payment is taken.</p>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-grid">
+
+      <div class="footer-col">
+        <div class="footer-logo">
+          <a href="index.html" aria-label="Pori Cardiff home">
+            <img src="images/pori-logo.png" alt="Pori Cardiff" width="48" height="48" loading="lazy"
+                 id="footer-logo-img"
+                 onerror="this.style.display='none';document.getElementById('footer-logo-fallback').style.display='block'">
+            <span class="footer-logo-text" id="footer-logo-fallback">Pori</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-label">Find us</p>
+        <address>
+          4 Trade Street<br>
+          Cardiff, CF10 5DR<br>
+          Wales
+        </address>
+      </div>
+
+      <div class="footer-col">
+        <p class="footer-col-label">Follow</p>
+        <a class="footer-social-link"
+           href="https://www.instagram.com/pori.cardiff/"
+           target="_blank" rel="noopener noreferrer"
+           aria-label="Pori Cardiff on Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+          Instagram
+        </a>
+        <a class="footer-social-link"
+           href="https://www.facebook.com/p/Poricardiff-61583068355217/"
+           target="_blank" rel="noopener noreferrer"
+           aria-label="Pori Cardiff on Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          Facebook
+        </a>
+      </div>
+
+    </div>
+    <div class="footer-base">
+      <p>Pori Cardiff. All rights reserved.</p>
+      <p>4 Trade Street, Cardiff, CF10 5DR</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      'use strict';
+
+      /* ------ NAV OVERLAY ------ */
+      var menuBtn    = document.getElementById('menu-btn');
+      var navOverlay = document.getElementById('nav-overlay');
+      var closeBtn   = document.getElementById('nav-overlay-close');
+
+      function openOverlay() {
+        navOverlay.classList.add('open');
+        navOverlay.setAttribute('aria-hidden', 'false');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        var svg = menuBtn.querySelector('svg');
+        if (svg) svg.innerHTML = '<line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/>';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeOverlay() {
+        navOverlay.classList.remove('open');
+        navOverlay.setAttribute('aria-hidden', 'true');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        var svg = menuBtn.querySelector('svg');
+        if (svg) svg.innerHTML = '<line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="16" x2="20" y2="16"/>';
+        document.body.style.overflow = '';
+      }
+
+      if (menuBtn && navOverlay) {
+        menuBtn.addEventListener('click', function () {
+          navOverlay.classList.contains('open') ? closeOverlay() : openOverlay();
+        });
+        if (closeBtn) closeBtn.addEventListener('click', closeOverlay);
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && navOverlay.classList.contains('open')) closeOverlay();
+        });
+      }
+
+      /* ------ FADE-UP SCROLL ANIMATIONS ------ */
+      if ('IntersectionObserver' in window) {
+        var fadeObs = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              fadeObs.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
+        document.querySelectorAll('.fade-up').forEach(function (el) { fadeObs.observe(el); });
+      } else {
+        document.querySelectorAll('.fade-up').forEach(function (el) { el.classList.add('visible'); });
+      }
+
+      /* ------ PRE-ORDER LOGIC ------ */
+      var orderItems = [];
+
+      function renderOrder() {
+        var linesEl    = document.getElementById('order-lines');
+        var totalEl    = document.getElementById('order-total');
+        var totalRowEl = document.getElementById('order-total-row');
+        var formEl     = document.getElementById('po-form');
+        var submitBtn  = document.getElementById('btn-preorder');
+        if (!linesEl) return;
+
+        if (orderItems.length === 0) {
+          linesEl.innerHTML = '<p class="order-empty">No items added yet.</p>';
+          if (totalRowEl) totalRowEl.style.display = 'none';
+          if (formEl)     formEl.style.display     = 'none';
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.setAttribute('aria-disabled', 'true');
+          }
+          return;
+        }
+
+        /* Group by name */
+        var grouped = {};
+        orderItems.forEach(function (item) {
+          if (grouped[item.name]) {
+            grouped[item.name].qty++;
+          } else {
+            grouped[item.name] = { qty: 1, price: item.price };
+          }
+        });
+
+        var total = 0;
+        var html  = '';
+        Object.keys(grouped).forEach(function (name) {
+          var g         = grouped[name];
+          var lineTotal = Math.round(g.qty * g.price * 100) / 100;
+          total += lineTotal;
+          html += '<div class="order-line">';
+          html += '<span class="order-line-name">' + name + '</span>';
+          html += '<span class="order-line-qty">x' + g.qty + '</span>';
+          html += '<span class="order-line-price">&pound;' + lineTotal.toFixed(2) + '</span>';
+          html += '<button class="order-line-remove" aria-label="Remove one ' + name + ' from order" data-remove="' + name + '">&times;</button>';
+          html += '</div>';
+        });
+
+        linesEl.innerHTML = html;
+        if (totalEl)    totalEl.textContent = '£' + (Math.round(total * 100) / 100).toFixed(2);
+        if (totalRowEl) totalRowEl.style.display = 'flex';
+        if (formEl)     formEl.style.display     = 'block';
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.setAttribute('aria-disabled', 'false');
+        }
+
+        /* Attach remove handlers */
+        linesEl.querySelectorAll('[data-remove]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            removeItem(this.getAttribute('data-remove'));
+          });
+        });
+      }
+
+      function updateBtnLabel(btn, name) {
+        var count = orderItems.filter(function (i) { return i.name === name; }).length;
+        if (count > 0) {
+          btn.textContent = count;
+          btn.classList.add('has-qty');
+          btn.setAttribute('aria-label', 'Add another ' + name + ' (currently ' + count + ' in order)');
+        } else {
+          btn.textContent = '+';
+          btn.classList.remove('has-qty');
+          btn.setAttribute('aria-label', 'Add ' + name + ' to order');
+        }
+      }
+
+      function removeItem(name) {
+        for (var i = orderItems.length - 1; i >= 0; i--) {
+          if (orderItems[i].name === name) {
+            orderItems.splice(i, 1);
+            break;
+          }
+        }
+        document.querySelectorAll('.po-btn-add').forEach(function (btn) {
+          var item = btn.closest('.po-item');
+          if (item && item.getAttribute('data-name') === name) {
+            updateBtnLabel(btn, name);
+          }
+        });
+        renderOrder();
+      }
+
+      /* Wire up add buttons */
+      document.querySelectorAll('.po-btn-add').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var item  = this.closest('.po-item');
+          var name  = item ? item.getAttribute('data-name')          : '';
+          var price = item ? parseFloat(item.getAttribute('data-price')) : 0;
+          if (!name) return;
+          orderItems.push({ name: name, price: price });
+          updateBtnLabel(this, name);
+          renderOrder();
+        });
+      });
+
+      /* Submit */
+      var submitBtn = document.getElementById('btn-preorder');
+      if (submitBtn) {
+        submitBtn.addEventListener('click', function () {
+          var panel    = document.getElementById('order-summary-panel');
+          var nameVal  = (document.getElementById('po-name')    || {}).value || '';
+          var tableVal = (document.getElementById('po-table')   || {}).value || '';
+          var greeting  = nameVal.trim()  ? 'Thanks, ' + nameVal.trim().split(' ')[0] + '.' : 'Order received.';
+          var tableNote = tableVal.trim() ? ' We will bring it to table ' + tableVal.trim() + '.' : ' We will have your table ready.';
+          if (panel) {
+            panel.innerHTML =
+              '<div class="order-confirm">' +
+              '<p class="order-confirm-title">' + greeting + '</p>' +
+              '<p class="order-confirm-body">' + tableNote.trim() + ' Come as you are.</p>' +
+              '</div>';
+          }
+        });
+      }
+
+    }());
+  </script>
+  <script src="chat.js"></script>
+</body>
+</html>

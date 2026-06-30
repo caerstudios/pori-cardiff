@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The story behind Pori Cardiff - a brunch and sando bar at 4 Trade Street, Cardiff, opened by Sam Hooper and Ross Holland.">
+  <title>Our Story - Pori Cardiff</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --c-bg:           #150b05;
+      --c-green-deep:   #1e2f26;
+      --c-green-mid:    #7daa8c;
+      --c-green-light:  #9ec0aa;
+      --c-text:         #f0ede4;
+      --c-text-muted:   rgba(240, 237, 228, 0.58);
+      --c-off-white:    #f5f2eb;
+      --c-border:       rgba(240, 237, 228, 0.12);
+
+      --font-serif: 'Cormorant Garamond', 'Georgia', serif;
+      --font-sans:  'Outfit', system-ui, sans-serif;
+
+      --radius-sm: 3px;
+      --ease-base: 0.45s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    /* ====================================================
+       RESET
+    ==================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+
+    /* ====================================================
+       WOOD GRAIN BODY
+    ==================================================== */
+    body {
+      background-color: #0a0604;
+      background-image:
+        linear-gradient(rgba(10, 6, 3, 0.72), rgba(10, 6, 3, 0.72)),
+        url('images/wood-bg-2.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center center;
+      color: var(--c-text);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { text-decoration: none; }
+    button { cursor: pointer; }
+
+    /* ====================================================
+       NAVIGATION
+    ==================================================== */
+    .nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 44px;
+      height: 68px;
+      background: rgba(14, 8, 3, 0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(240, 237, 228, 0.08);
+    }
+    .nav-logo img {
+      height: 40px;
+      width: auto;
+    }
+    .nav-logo-text {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--c-off-white);
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .nav-reserve-link {
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--c-off-white);
+      border: 1px solid rgba(240, 237, 228, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      transition: background var(--ease-base);
+      white-space: nowrap;
+    }
+    .nav-reserve-link:hover { background: rgba(240, 237, 228, 0.08); }
+    .nav-btn {
+      background: none;
+      border: none;
+      padding: 6px;
+      color: var(--c-off-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity var(--ease-base);
+      line-height: 1;
+    }
+    .nav-btn:hover { opacity: 0.55; }
+    .nav-btn svg {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .nav-btn.ig svg { stroke: none; fill: currentColor; }
+
+    /* ====================================================
+       NAV OVERLAY
+    ==================================================== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 8000;
+      background-color: #0a0604;
+      background-image:
+        linear-gradient(rgba(8, 4, 2, 0.80), rgba(8, 4, 2, 0.80)),
+        url('images/wood-bg-1.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  visibility 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .nav-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-overlay-close {
+      position: absolute;
+      top: 24px;
+      right: 36px;
+      background: none;
+      border: none;
+      color: rgba(240, 237, 228, 0.35);
+      font-size: 28px;
+      font-weight: 200;
+      line-height: 1;
+      padding: 8px;
+      cursor: pointer;
+      transition: color var(--ease-base);
+    }
+    .nav-overlay-close:hover { color: rgba(240, 237, 228, 0.75); }
+    .nav-overlay-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-overlay-link {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 5vw, 68px);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(240, 237, 228, 0.80);
+      letter-spacing: -0.01em;
+      line-height: 1.14;
+      display: inline-block;
+      transition: color 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .nav-overlay-link:hover {
+      color: #f0ede4;
+      transform: translateX(14px);
+    }
+    .nav-overlay-link.current { color: rgba(240, 237, 228, 0.28); pointer-events: none; }
+    .nav-overlay-foot {
+      position: absolute;
+      bottom: 44px;
+      left: 60px;
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+    .nav-overlay-foot-text {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      color: rgba(240, 237, 228, 0.22);
+    }
+    .nav-overlay-foot-link {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      color: rgba(240, 237, 228, 0.32);
+      transition: color 0.3s ease;
+    }
+    .nav-overlay-foot-link:hover { color: rgba(240, 237, 228, 0.65); }
+
+    /* ====================================================
+       PAGE HERO
+    ==================================================== */
+    .page-hero {
+      position: relative;
+      min-height: 100dvh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 60px 96px;
+      overflow: hidden;
+    }
+    .page-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/pori-spread.jpg');
+      background-size: cover;
+      background-position: center 45%;
+      background-repeat: no-repeat;
+      background-color: #1a2a20;
+    }
+    .page-hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom,
+          rgba(8, 6, 3, 0.60) 0%,
+          rgba(8, 6, 3, 0.10) 38%,
+          rgba(8, 6, 3, 0.18) 62%,
+          rgba(8, 6, 3, 0.82) 100%
+        );
+    }
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
+    }
+    .page-hero-eyebrow {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(245, 242, 235, 0.50);
+      margin-bottom: 24px;
+    }
+    .page-hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: rgba(245, 242, 235, 0.30);
+      margin-bottom: 18px;
+    }
+    .page-hero-heading {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(64px, 9vw, 120px);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: #f5f2eb;
+    }
+
+    /* ====================================================
+       WHERE IT BEGAN - 50/50 EDITORIAL SECTION
+    ==================================================== */
+    .began {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 80vh;
+    }
+    .began-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 96px 80px 96px 60px;
+    }
+    .section-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--c-green-mid);
+      margin-bottom: 28px;
+    }
+    .section-heading {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(36px, 3.4vw, 54px);
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      color: var(--c-text);
+      margin-bottom: 32px;
+    }
+    .section-body {
+      font-family: var(--font-sans);
+      font-size: 14.5px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--c-text-muted);
+      max-width: 48ch;
+    }
+    .section-body + .section-body { margin-top: 20px; }
+
+    /* Decorative right panel */
+    .began-deco {
+      position: relative;
+      overflow: hidden;
+      min-height: 480px;
+    }
+    .began-deco img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .began-deco::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8, 5, 3, 0.72) 0%,
+        rgba(8, 5, 3, 0.28) 50%,
+        rgba(8, 5, 3, 0.12) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+    }
+    .began-deco-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 40px;
+    }
+    .began-deco-quote {
+      font-family: var(--font-serif);
+      font-size: clamp(18px, 2vw, 26px);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.5;
+      color: rgba(245, 242, 235, 0.88);
+      text-align: center;
+      max-width: 28ch;
+    }
+
+    /* ====================================================
+       MANIFESTO STRIP
+    ==================================================== */
+    .manifesto {
+      background-color: #1a2e22;
+      background-image:
+        linear-gradient(rgba(20, 38, 26, 0.86), rgba(20, 38, 26, 0.86)),
+        url('images/wood-bg-3.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 112px 60px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .manifesto-quote {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(32px, 4.5vw, 60px);
+      line-height: 1.28;
+      color: var(--c-off-white);
+      max-width: 22ch;
+    }
+    .manifesto-rule {
+      width: 48px;
+      height: 1px;
+      background: rgba(245, 242, 235, 0.22);
+      margin: 36px auto 28px;
+    }
+    .manifesto-attr {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(245, 242, 235, 0.32);
+    }
+
+    /* ====================================================
+       THE NAME SECTION
+    ==================================================== */
+    .name-section {
+      padding: 120px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .name-section .section-eyebrow {
+      margin-bottom: 32px;
+    }
+    .name-heading {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(40px, 5vw, 72px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--c-text);
+      max-width: 18ch;
+      margin-bottom: 36px;
+    }
+    .name-body {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--c-text-muted);
+      max-width: 42ch;
+    }
+    .name-divider {
+      width: 1px;
+      height: 72px;
+      background: linear-gradient(to bottom, transparent, rgba(240, 237, 228, 0.22), transparent);
+      margin: 56px auto 0;
+    }
+
+    /* ====================================================
+       STATS ROW
+    ==================================================== */
+    .stats {
+      padding: 100px 60px;
+      border-top: 1px solid var(--c-border);
+      border-bottom: 1px solid var(--c-border);
+    }
+    .stats-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 40px;
+      position: relative;
+    }
+    .stat-item + .stat-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 60%;
+      background: var(--c-border);
+    }
+    .stat-number {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(52px, 6.5vw, 88px);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--c-text);
+      margin-bottom: 12px;
+    }
+    .stat-label {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-green-mid);
+    }
+    .stat-sub {
+      margin-top: 6px;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--c-text-muted);
+    }
+
+    /* ====================================================
+       CTA SECTION
+    ==================================================== */
+    .cta-section {
+      padding: 120px 60px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cta-eyebrow {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(240, 237, 228, 0.30);
+      margin-bottom: 32px;
+    }
+    .cta-heading {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(36px, 4.5vw, 60px);
+      line-height: 1.14;
+      letter-spacing: -0.01em;
+      color: var(--c-text);
+      margin-bottom: 18px;
+      max-width: 20ch;
+    }
+    .cta-sub {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--c-text-muted);
+      max-width: 44ch;
+      margin-bottom: 52px;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-primary {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-green-deep);
+      background: var(--c-off-white);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 17px 36px;
+      transition: background var(--ease-base);
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #e6e3da; }
+    .btn-outline {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-off-white);
+      background: none;
+      border: 1px solid rgba(240, 237, 228, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 17px 36px;
+      transition: background var(--ease-base), border-color var(--ease-base);
+      display: inline-block;
+    }
+    .btn-outline:hover {
+      background: rgba(240, 237, 228, 0.07);
+      border-color: rgba(240, 237, 228, 0.42);
+    }
+
+    /* ====================================================
+       FOOTER
+    ==================================================== */
+    .footer {
+      background: #0b1009;
+      padding: 68px 60px 40px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(245, 242, 235, 0.08);
+    }
+    .footer-logo img { height: 48px; width: auto; opacity: 0.85; }
+    .footer-col p,
+    .footer-col address {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 300;
+      font-style: normal;
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+      color: rgba(245, 242, 235, 0.40);
+    }
+    .footer-col-label {
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245, 242, 235, 0.24);
+      margin-bottom: 14px;
+    }
+    .footer-social-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(245, 242, 235, 0.38);
+      margin-bottom: 12px;
+      transition: color var(--ease-base);
+    }
+    .footer-social-link:last-child { margin-bottom: 0; }
+    .footer-social-link:hover { color: rgba(245, 242, 235, 0.70); }
+    .footer-base {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-base p {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      color: rgba(245, 242, 235, 0.20);
+      letter-spacing: 0.08em;
+    }
+
+    /* ====================================================
+       FADE-UP ANIMATIONS
+    ==================================================== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.d1 { transition-delay: 0.12s; }
+    .fade-up.d2 { transition-delay: 0.24s; }
+    .fade-up.d3 { transition-delay: 0.36s; }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    /* ====================================================
+       RESPONSIVE
+    ==================================================== */
+    @media (max-width: 1024px) {
+      .nav { padding: 0 28px; }
+      .page-hero { padding: 0 40px 80px; }
+
+      .began { grid-template-columns: 1fr; }
+      .began-deco { min-height: 56vw; grid-template-rows: 2fr 1fr; }
+      .began-text { padding: 72px 40px; }
+
+      .manifesto { padding: 88px 40px; }
+
+      .name-section { padding: 96px 40px; }
+
+      .stats { padding: 80px 40px; }
+      .stat-item { padding: 0 24px; }
+
+      .cta-section { padding: 96px 40px; }
+
+      .footer { padding: 56px 40px 32px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .nav { padding: 0 20px; height: 58px; }
+      .nav-logo img { height: 34px; }
+      .nav-reserve-link { display: none; }
+
+      .page-hero { padding: 0 24px 72px; }
+
+      .began-text { padding: 56px 24px; }
+      .began-deco { min-height: 72vw; }
+
+      .manifesto { padding: 72px 24px; }
+
+      .name-section { padding: 72px 24px; }
+
+      .stats { padding: 64px 24px; }
+      .stats-inner { grid-template-columns: 1fr; gap: 48px; }
+      .stat-item + .stat-item::before { display: none; }
+      .stat-item { padding: 0; }
+
+      .cta-section { padding: 72px 24px; }
+      .cta-buttons { flex-direction: column; align-items: stretch; }
+      .btn-primary, .btn-outline { text-align: center; }
+
+      .footer { padding: 44px 24px 28px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+      .footer-base { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+
+    /* ====================================================
+       REDUCED MOTION
+    ==================================================== */
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" id="site-nav">
+    <a href="index.html" class="nav-logo" aria-label="Pori Cardiff home">
+      <img src="images/pori-logo.png" alt="Pori Cardiff" width="44" height="44" id="nav-logo-img" onerror="this.style.display='none';document.getElementById('nav-logo-fallback').style.display='block'">
+      <span class="nav-logo-text" id="nav-logo-fallback" style="display:none">Pori</span>
+    </a>
+    <div class="nav-right">
+      <a href="reserve.html" class="nav-reserve-link">Reserve</a>
+      <a href="https://www.instagram.com/pori.cardiff/" target="_blank" rel="noopener noreferrer" class="nav-btn ig" aria-label="Follow Pori Cardiff on Instagram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+      </a>
+      <button class="nav-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><line x1="4" y1="8" x2="20" y2="8"/><line x1="4" y1="16" x2="20" y2="16"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== NAV OVERLAY ========== -->
+  <div class="nav-overlay" id="nav-overlay" role="dialog" aria-label="Site navigation" aria-hidden="true">
+    <button class="nav-overlay-close" id="nav-overlay-close" aria-label="Close menu">&times;</button>
+    <nav class="nav-overlay-links" aria-label="Pages">
+      <a href="index.html"     class="nav-overlay-link">Home</a>
+      <a href="our-story.html" class="nav-overlay-link current">Our Story</a>
+      <a href="gallery.html"   class="nav-overlay-link">Gallery</a>
+      <a href="find-us.html"   class="nav-overlay-link">Find Us</a>
+      <a href="contact.html"   class="nav-overlay-link">Contact</a>
+      <a href="dietary.html"   class="nav-overlay-link">Dietary</a>
+      <a href="reserve.html"   class="nav-overlay-link">Reserve</a>
+      <a href="preorder.html"  class="nav-overlay-link">Pre-order</a>
+    </nav>
+    <div class="nav-overlay-foot">
+      <span class="nav-overlay-foot-text">4 Trade Street, Cardiff CF10 5DR</span>
+      <a href="https://www.instagram.com/pori.cardiff/" class="nav-overlay-foot-link" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </div>
+  </div>
+
+  <!-- ========== PAGE HERO ========== -->
+  <section class="page-hero" aria-labelledby="page-hero-heading">
+    <div class="page-hero-bg" role="img" aria-label="Overhead flat-lay of Pori Cardiff food spread on dark surface"></div>
+    <div class="page-hero-content">
+      <span class="page-hero-eyebrow">Pori Cardiff</span>
+      <h1 class="page-hero-heading" id="page-hero-heading">Our Story</h1>
+    </div>
+  </section>
+
+  <!-- ========== WHERE IT BEGAN ========== -->
+  <section class="began" aria-labelledby="began-heading">
+    <div class="began-text">
+      <p class="section-eyebrow fade-up">Where it began</p>
+      <h2 class="section-heading fade-up d1" id="began-heading">
+        Two friends.<br>One Sunday morning.
+      </h2>
+      <p class="section-body fade-up d2">
+        Pori Cardiff began with two friends, a Sunday morning, and a conviction that Cardiff deserved somewhere worth getting out of bed for. Sam Hooper and Ross Holland met working the same kitchen, talking for years about the kind of place they would open if they ever got the chance. Trade Street gave them that chance.
+      </p>
+      <p class="section-body fade-up d2">
+        The space is warm and unhurried. The cooking is honest. Everything on the table has been thought about.
+      </p>
+    </div>
+    <div class="began-deco fade-up d1" aria-hidden="true">
+      <img src="images/2man.png" alt="" loading="lazy" decoding="async">
+      <div class="began-deco-bottom">
+        <p class="began-deco-quote">A place that rewards those who take their time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MANIFESTO STRIP ========== -->
+  <div class="manifesto" aria-label="Pori Cardiff philosophy">
+    <blockquote>
+      <p class="manifesto-quote fade-up">Good food does not announce itself. It just stays with you.</p>
+      <div class="manifesto-rule fade-up d1" aria-hidden="true"></div>
+      <footer class="manifesto-attr fade-up d1">Pori Cardiff</footer>
+    </blockquote>
+  </div>
+
+  <!-- ========== THE NAME ========== -->
+  <section class="name-section" aria-labelledby="name-heading">
+    <p class="section-eyebrow fade-up">The name</p>
+    <h2 class="name-heading fade-up d1" id="name-heading">Pori is a place to be.</h2>
+    <p class="name-body fade-up d2">
+      Not to rush through. The name says something about pace, about the kind of visit we want you to have. Pull up a chair. Order something good. Let the morning last.
+    </p>
+    <div class="name-divider fade-up d3" aria-hidden="true"></div>
+  </section>
+
+  <!-- ========== STATS ========== -->
+  <section class="stats" aria-label="Pori Cardiff facts">
+    <div class="stats-inner">
+      <div class="stat-item fade-up">
+        <span class="stat-number">2024</span>
+        <span class="stat-label">Open since</span>
+        <span class="stat-sub">Cardiff CF10</span>
+      </div>
+      <div class="stat-item fade-up d1">
+        <span class="stat-number">4.9</span>
+        <span class="stat-label">Google rating</span>
+        <span class="stat-sub">Based on customer reviews</span>
+      </div>
+      <div class="stat-item fade-up d2">
+        <span class="stat-number">CF10</span>
+        <span class="stat-label">Trade Street</span>
+        <span class="stat-sub">Cardiff, Wales</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="cta-section" aria-labelledby="cta-heading">
+    <p class="cta-eyebrow fade-up">Ready to visit?</p>
+    <h2 class="cta-heading fade-up d1" id="cta-heading">Come as you are.</h2>
+    <p class="cta-sub fade-up d2">
+      Find us on Trade Street, Tuesday to Sunday from 11am. Walk-ins always welcome. Reserve ahead if you want to be sure of a spot.
+    </p>
+    <div class="cta-buttons fade-up d3">
+      <a href="reserve.html" class="btn-primary">Reserve a table</a>
+      <a href="index.html#menu" class="btn-outline">See the menu</a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <a href="index.html" aria-label="Pori Cardiff">
+            <img src="images/pori-logo.png" alt="Pori Cardiff" width="48" height="48" loading="lazy" onerror="this.style.display='none'">
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">Find us</p>
+        <address>4 Trade Street<br>Cardiff, CF10 5DR<br>Wales</address>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">Follow</p>
+        <a class="footer-social-link" href="https://www.instagram.com/pori.cardiff/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a class="footer-social-link" href="https://www.facebook.com/p/Poricardiff-61583068355217/" target="_blank" rel="noopener noreferrer">Facebook</a>
+      </div>
+    </div>
+    <div class="footer-base">
+      <p>Pori Cardiff. All rights reserved.</p>
+      <p>4 Trade Street, Cardiff, CF10 5DR</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+
+      /* ------ NAV OVERLAY ------ */
+      var menuBtn    = document.getElementById('menu-btn');
+      var overlay    = document.getElementById('nav-overlay');
+      var closeBtn   = document.getElementById('nav-overlay-close');
+
+      function openOverlay() {
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeOverlay() {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      if (menuBtn)  menuBtn.addEventListener('click', openOverlay);
+      if (closeBtn) closeBtn.addEventListener('click', closeOverlay);
+
+      overlay.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeOverlay();
+      });
+
+      /* ------ FADE-UP INTERSECTION OBSERVER ------ */
+      var fadeEls = document.querySelectorAll('.fade-up');
+      if (fadeEls.length > 0) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+
+        fadeEls.forEach(function (el) { observer.observe(el); });
+      }
+
+    }());
+  </script>
+  <script src="chat.js"></script>
+</body>
+</html>

@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reserve a table at Pori Cardiff. Open Tuesday to Sunday from 11am at 4 Trade Street, Cardiff CF10 5DR. Walk-ins welcome, bookings preferred.">
+  <title>Reserve a Table - Pori Cardiff</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ====================================================
+       DESIGN DIALS: VARIANCE=7 | MOTION=5 | DENSITY=4
+       PALETTE: Forest family (deep sage green + bone off-white)
+       SERIF: Cormorant Garamond — brief explicitly requires it
+       NO em-dashes anywhere on this page (skill rule 9.G)
+    ==================================================== */
+
+    :root {
+      --c-bg:           #0a0604;
+      --c-bg-deeper:    #110804;
+      --c-green-deep:   #1e2f26;
+      --c-green-mid:    #7daa8c;
+      --c-green-light:  #9ec0aa;
+      --c-text:         #f0ede4;
+      --c-text-muted:   rgba(240, 237, 228, 0.58);
+      --c-off-white:    #f5f2eb;
+      --c-border:       rgba(240, 237, 228, 0.12);
+
+      --font-serif: 'Cormorant Garamond', 'Georgia', serif;
+      --font-sans:  'Outfit', system-ui, sans-serif;
+
+      --radius-sm: 3px;
+
+      --ease-base: 0.45s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+
+    /* ====================================================
+       RESET
+    ==================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
+    body {
+      background-color: #0a0604;
+      background-image:
+        linear-gradient(rgba(10, 6, 3, 0.72), rgba(10, 6, 3, 0.72)),
+        url('images/wood-bg-2.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center center;
+      color: var(--c-text);
+      font-family: var(--font-sans);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { text-decoration: none; }
+    button { cursor: pointer; }
+
+    /* ====================================================
+       NAVIGATION
+    ==================================================== */
+    .nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 44px;
+      height: 68px;
+      background: rgba(14, 8, 3, 0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(240, 237, 228, 0.10);
+      transition: background var(--ease-base), border-color var(--ease-base);
+    }
+    .nav-logo img {
+      height: 40px;
+      width: auto;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    /* Pre-order pill in nav */
+    .nav-reserve-link {
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--c-off-white);
+      border: 1px solid rgba(240, 237, 228, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      transition: background var(--ease-base);
+      white-space: nowrap;
+    }
+    .nav-reserve-link:hover { background: rgba(240, 237, 228, 0.08); }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      padding: 6px;
+      color: var(--c-off-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity var(--ease-base);
+      line-height: 1;
+    }
+    .nav-btn:hover { opacity: 0.55; }
+    .nav-btn svg {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .nav-btn.ig svg { stroke: none; fill: currentColor; }
+
+    /* ====================================================
+       PAGE HEADER
+    ==================================================== */
+    .page-header {
+      padding-top: 140px;
+      padding-bottom: 60px;
+      padding-left: 60px;
+      padding-right: 60px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .page-header-heading {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(44px, 5.5vw, 80px);
+      line-height: 1.08;
+      letter-spacing: -0.01em;
+      color: var(--c-off-white);
+      margin-bottom: 18px;
+      /* descender clearance for italic 'y' */
+      padding-bottom: 4px;
+    }
+    .page-header-sub {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.72;
+      color: var(--c-text-muted);
+      max-width: 52ch;
+    }
+
+    /* ====================================================
+       TWO-COLUMN LAYOUT
+    ==================================================== */
+    .reserve-body {
+      padding: 0 60px 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .reserve-grid {
+      display: grid;
+      grid-template-columns: 5fr 4fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* ====================================================
+       RESERVATION FORM
+    ==================================================== */
+    .booking-form-wrap {
+      /* no card — left column floats on the wood bg */
+    }
+    .f-group { margin-bottom: 22px; }
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .f-label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(240, 237, 228, 0.45);
+      margin-bottom: 9px;
+    }
+    .f-input,
+    .f-select,
+    .f-textarea {
+      width: 100%;
+      background: rgba(240, 237, 228, 0.07);
+      border: 1px solid rgba(240, 237, 228, 0.15);
+      border-radius: var(--radius-sm);
+      padding: 13px 15px;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(240, 237, 228, 0.85);
+      outline: none;
+      transition: border-color var(--ease-base), background var(--ease-base);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .f-input::placeholder,
+    .f-textarea::placeholder { color: rgba(240, 237, 228, 0.22); }
+    .f-input:focus,
+    .f-select:focus,
+    .f-textarea:focus {
+      border-color: rgba(240, 237, 228, 0.38);
+      background: rgba(240, 237, 228, 0.10);
+    }
+    /* Date input calendar icon colour */
+    .f-input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.7) brightness(0.9);
+      opacity: 0.45;
+      cursor: pointer;
+    }
+    .f-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(240,237,228,0.3)' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 11px;
+      padding-right: 38px;
+      cursor: pointer;
+    }
+    .f-select option {
+      background: var(--c-green-deep);
+      color: var(--c-off-white);
+    }
+    .f-textarea {
+      resize: vertical;
+      min-height: 88px;
+      line-height: 1.65;
+    }
+    .f-divider {
+      height: 1px;
+      background: rgba(240, 237, 228, 0.08);
+      margin: 28px 0;
+    }
+    .btn-book {
+      width: 100%;
+      background: var(--c-green-deep);
+      color: var(--c-off-white);
+      border: 1px solid rgba(240, 237, 228, 0.14);
+      border-radius: var(--radius-sm);
+      padding: 17px 28px;
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      transition: background var(--ease-base), border-color var(--ease-base);
+    }
+    .btn-book:hover {
+      background: #2a4035;
+      border-color: rgba(240, 237, 228, 0.22);
+    }
+    .btn-book:active { transform: translateY(1px); }
+    .form-caveat {
+      margin-top: 14px;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      color: rgba(240, 237, 228, 0.22);
+      text-align: center;
+      letter-spacing: 0.06em;
+    }
+
+    /* Confirmation state */
+    .form-confirm {
+      display: none;
+      padding: 52px 0 32px;
+    }
+    .form-confirm-line {
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--c-green-mid);
+      margin-bottom: 28px;
+    }
+    .form-confirm-heading {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(30px, 3.2vw, 46px);
+      line-height: 1.14;
+      color: var(--c-off-white);
+      margin-bottom: 20px;
+      padding-bottom: 4px; /* descender clearance */
+    }
+    .form-confirm-body {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.78;
+      color: rgba(240, 237, 228, 0.48);
+      max-width: 44ch;
+    }
+
+    /* ====================================================
+       INFO PANEL (RIGHT COLUMN)
+    ==================================================== */
+    .info-panel {
+      background: rgba(240, 237, 228, 0.04);
+      border: 1px solid rgba(240, 237, 228, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 44px 40px 40px;
+      position: sticky;
+      top: 88px;
+    }
+    .info-panel-label {
+      font-family: var(--font-sans);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--c-green-mid);
+      margin-bottom: 28px;
+    }
+    .info-hours-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(240, 237, 228, 0.08);
+    }
+    .hours-line {
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 300;
+      line-height: 1.76;
+      color: rgba(240, 237, 228, 0.72);
+    }
+    .hours-line.muted { color: rgba(240, 237, 228, 0.35); }
+    .hours-line.strong {
+      font-weight: 400;
+      color: var(--c-off-white);
+    }
+    .info-note {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 300;
+      line-height: 1.76;
+      color: rgba(240, 237, 228, 0.42);
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(240, 237, 228, 0.08);
+    }
+    .info-address {
+      margin-bottom: 20px;
+    }
+    .info-address address {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 300;
+      font-style: normal;
+      line-height: 1.80;
+      color: rgba(240, 237, 228, 0.50);
+      letter-spacing: 0.03em;
+    }
+    .info-directions {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(240, 237, 228, 0.50);
+      border-bottom: 1px solid rgba(240, 237, 228, 0.18);
+      padding-bottom: 1px;
+      transition: color var(--ease-base), border-color var(--ease-base);
+    }
+    .info-directions:hover {
+      color: var(--c-off-white);
+      border-color: rgba(240, 237, 228, 0.50);
+    }
+    .info-directions svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* ====================================================
+       LARGE GROUP SECTION
+    ==================================================== */
+    .group-section {
+      background-color: #1a2e22;
+      background-image:
+        linear-gradient(rgba(20, 38, 26, 0.88), rgba(20, 38, 26, 0.88)),
+        url('images/wood-bg-3.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 88px 60px;
+    }
+    .group-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 48px;
+    }
+    .group-text {}
+    .group-heading {
+      font-family: var(--font-serif);
+      font-weight: 300;
+      font-size: clamp(26px, 3vw, 40px);
+      line-height: 1.24;
+      color: var(--c-off-white);
+      margin-bottom: 10px;
+    }
+    .group-sub {
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 300;
+      line-height: 1.70;
+      color: rgba(240, 237, 228, 0.48);
+    }
+    .btn-contact {
+      flex-shrink: 0;
+      display: inline-block;
+      background: var(--c-off-white);
+      color: var(--c-green-deep);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 15px 28px;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: background var(--ease-base);
+    }
+    .btn-contact:hover { background: #e6e3da; }
+    .btn-contact:active { transform: translateY(1px); }
+
+    /* ====================================================
+       FOOTER
+    ==================================================== */
+    .footer {
+      background: #0b1009;
+      padding: 68px 60px 40px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(240, 237, 228, 0.08);
+    }
+    .footer-col p,
+    .footer-col address {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 300;
+      font-style: normal;
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+      color: rgba(240, 237, 228, 0.40);
+    }
+    .footer-col-label {
+      font-family: var(--font-sans);
+      font-size: 9.5px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(240, 237, 228, 0.24);
+      margin-bottom: 14px;
+    }
+    .footer-social-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(240, 237, 228, 0.38);
+      margin-bottom: 12px;
+      transition: color var(--ease-base);
+    }
+    .footer-social-link:last-child { margin-bottom: 0; }
+    .footer-social-link:hover { color: rgba(240, 237, 228, 0.70); }
+    .footer-base {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-base p {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      color: rgba(240, 237, 228, 0.20);
+      letter-spacing: 0.08em;
+    }
+
+    /* ====================================================
+       FADE-UP ANIMATIONS (IntersectionObserver)
+    ==================================================== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.85s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  transform 0.85s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .fade-up.d1 { transition-delay: 0.10s; }
+    .fade-up.d2 { transition-delay: 0.20s; }
+    .fade-up.d3 { transition-delay: 0.32s; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ====================================================
+       NAV OVERLAY
+    ==================================================== */
+    .nav-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 8000;
+      background-color: #0a0604;
+      background-image:
+        linear-gradient(rgba(8, 4, 2, 0.80), rgba(8, 4, 2, 0.80)),
+        url('images/wood-bg-1.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  visibility 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .nav-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .nav-overlay-close {
+      position: absolute;
+      top: 24px;
+      right: 36px;
+      background: none;
+      border: none;
+      color: rgba(240, 237, 228, 0.35);
+      font-size: 28px;
+      font-weight: 200;
+      line-height: 1;
+      padding: 8px;
+      cursor: pointer;
+      transition: color var(--ease-base);
+    }
+    .nav-overlay-close:hover { color: rgba(240, 237, 228, 0.75); }
+    .nav-overlay-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-overlay-link {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 5vw, 68px);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(240, 237, 228, 0.80);
+      letter-spacing: -0.01em;
+      line-height: 1.14;
+      display: inline-block;
+      transition: color 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+    .nav-overlay-link:hover {
+      color: #f0ede4;
+      transform: translateX(14px);
+    }
+    .nav-overlay-link.current {
+      color: rgba(240, 237, 228, 0.28);
+      pointer-events: none;
+    }
+    .nav-overlay-foot {
+      position: absolute;
+      bottom: 44px;
+      left: 60px;
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+    .nav-overlay-foot-text {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      color: rgba(240, 237, 228, 0.22);
+    }
+    .nav-overlay-foot-link {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.14em;
+      color: rgba(240, 237, 228, 0.32);
+      transition: color 0.3s ease;
+    }
+    .nav-overlay-foot-link:hover { color: rgba(240, 237, 228, 0.65); }
+
+    /* ====================================================
+       RESPONSIVE
+    ==================================================== */
+    @media (max-width: 1024px) {
+      .nav { padding: 0 28px; }
+      .page-header { padding-left: 40px; padding-right: 40px; }
+      .reserve-body { padding-left: 40px; padding-right: 40px; }
+      .reserve-grid { grid-template-columns: 1fr; gap: 48px; }
+      .info-panel { position: static; }
+      .group-section { padding: 72px 40px; }
+      .group-inner { flex-direction: column; align-items: flex-start; gap: 32px; }
+      .footer { padding: 56px 40px 32px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .nav { padding: 0 20px; height: 58px; }
+      .nav-logo img { height: 34px; }
+      .nav-reserve-link { display: none; }
+      .page-header { padding: 120px 24px 48px; }
+      .reserve-body { padding: 0 24px 72px; }
+      .f-row { grid-template-columns: 1fr; }
+      .group-section { padding: 56px 24px; }
+      .footer { padding: 44px 24px 28px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 36px; }
+      .footer-base { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .nav-overlay { padding: 80px 28px; }
+      .nav-overlay-foot { left: 28px; }
+    }
+
+    /* ====================================================
+       REDUCED MOTION
+    ==================================================== */
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up { opacity: 1; transform: none; transition: none; }
+      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" id="site-nav" role="navigation" aria-label="Site navigation">
+    <a href="index.html" class="nav-logo" aria-label="Pori Cardiff home">
+      <img src="images/pori-logo.png" alt="Pori Cardiff" width="44" height="44" onerror="this.style.display='none'">
+    </a>
+    <div class="nav-right">
+      <a href="preorder.html" class="nav-reserve-link">Pre-order</a>
+      <a href="https://www.instagram.com/pori.cardiff/" target="_blank" rel="noopener noreferrer" class="nav-btn ig" aria-label="Follow on Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        </svg>
+      </a>
+      <button class="nav-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== NAV OVERLAY ========== -->
+  <div class="nav-overlay" id="nav-overlay" role="dialog" aria-label="Site navigation" aria-hidden="true">
+    <button class="nav-overlay-close" id="nav-overlay-close" aria-label="Close menu">&times;</button>
+    <nav class="nav-overlay-links" aria-label="Pages">
+      <a href="index.html"     class="nav-overlay-link">Home</a>
+      <a href="our-story.html" class="nav-overlay-link">Our Story</a>
+      <a href="gallery.html"   class="nav-overlay-link">Gallery</a>
+      <a href="find-us.html"   class="nav-overlay-link">Find Us</a>
+      <a href="contact.html"   class="nav-overlay-link">Contact</a>
+      <a href="dietary.html"   class="nav-overlay-link">Dietary</a>
+      <a href="reserve.html"   class="nav-overlay-link current">Reserve</a>
+      <a href="preorder.html"  class="nav-overlay-link">Pre-order</a>
+    </nav>
+    <div class="nav-overlay-foot">
+      <span class="nav-overlay-foot-text">4 Trade Street, Cardiff CF10 5DR</span>
+      <a href="https://www.instagram.com/pori.cardiff/" class="nav-overlay-foot-link" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </div>
+  </div>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="page-header">
+    <h1 class="page-header-heading fade-up">Reserve a Table</h1>
+    <p class="page-header-sub fade-up d1">Open Tuesday to Sunday from 11am. Walk-ins welcome, bookings preferred.</p>
+  </header>
+
+  <!-- ========== MAIN: FORM + INFO ========== -->
+  <main class="reserve-body">
+    <div class="reserve-grid">
+
+      <!-- LEFT: Reservation form -->
+      <div class="booking-form-wrap fade-up">
+
+        <!-- The form itself -->
+        <form id="reserve-form" novalidate>
+
+          <div class="f-group">
+            <label class="f-label" for="r-name">Name</label>
+            <input class="f-input" type="text" id="r-name" name="name" autocomplete="name" required placeholder="Your name">
+          </div>
+
+          <div class="f-row">
+            <div class="f-group">
+              <label class="f-label" for="r-email">Email</label>
+              <input class="f-input" type="email" id="r-email" name="email" autocomplete="email" required placeholder="you@example.com">
+            </div>
+            <div class="f-group">
+              <label class="f-label" for="r-phone">Phone</label>
+              <input class="f-input" type="tel" id="r-phone" name="phone" autocomplete="tel" placeholder="Optional">
+            </div>
+          </div>
+
+          <div class="f-row">
+            <div class="f-group">
+              <label class="f-label" for="r-date">Date</label>
+              <input class="f-input" type="date" id="r-date" name="date">
+            </div>
+            <div class="f-group">
+              <label class="f-label" for="r-time">Time</label>
+              <select class="f-select" id="r-time" name="time">
+                <option value="" disabled selected>Select a time</option>
+                <option value="11:00">11:00</option>
+                <option value="11:30">11:30</option>
+                <option value="12:00">12:00</option>
+                <option value="12:30">12:30</option>
+                <option value="13:00">13:00</option>
+                <option value="13:30">13:30</option>
+                <option value="14:00">14:00</option>
+                <option value="14:30">14:30</option>
+                <option value="15:00">15:00</option>
+                <option value="15:30">15:30</option>
+                <option value="16:00">16:00</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="f-group">
+            <label class="f-label" for="r-party">Party size</label>
+            <select class="f-select" id="r-party" name="party_size">
+              <option value="" disabled selected>How many guests?</option>
+              <option value="1">1 guest</option>
+              <option value="2">2 guests</option>
+              <option value="3">3 guests</option>
+              <option value="4">4 guests</option>
+              <option value="5">5 guests</option>
+              <option value="6">6 guests</option>
+              <option value="7">7 guests</option>
+              <option value="8">8 guests</option>
+              <option value="8+">8+ guests</option>
+            </select>
+          </div>
+
+          <div class="f-group">
+            <label class="f-label" for="r-notes">Notes <span style="opacity:0.45;font-style:italic;letter-spacing:0.08em;text-transform:none;">(optional)</span></label>
+            <textarea class="f-textarea" id="r-notes" name="notes" rows="3" placeholder="Dietary requirements, celebrations, anything we should know..."></textarea>
+          </div>
+
+          <div class="f-divider" aria-hidden="true"></div>
+
+          <button class="btn-book" type="submit">Request Reservation</button>
+          <p class="form-caveat">Design preview only. Live bookings coming at launch.</p>
+        </form>
+
+        <!-- Confirmation (shown after submit) -->
+        <div class="form-confirm" id="form-confirm" aria-live="polite">
+          <span class="form-confirm-line" aria-hidden="true"></span>
+          <p class="form-confirm-heading">Reservation request received.</p>
+          <p class="form-confirm-body">We will confirm your table by email within a few hours. If you have an urgent query, find us on Instagram or pop in.</p>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Info panel -->
+      <aside class="info-panel fade-up d2" aria-label="Opening hours and location">
+
+        <p class="info-panel-label">When we are open</p>
+
+        <div class="info-hours-row" role="list">
+          <span class="hours-line strong" role="listitem">Tuesday to Sunday</span>
+          <span class="hours-line" role="listitem">Open from 11am</span>
+          <span class="hours-line" role="listitem">Brunch served all day</span>
+          <span class="hours-line" role="listitem">Lunch sandos: Tuesday to Saturday</span>
+          <span class="hours-line muted" role="listitem">Closed Monday</span>
+        </div>
+
+        <p class="info-note">Walk-ins always welcome. Last orders at 4pm.</p>
+
+        <div class="info-address">
+          <address>
+            4 Trade Street<br>
+            Cardiff CF10 5DR
+          </address>
+        </div>
+
+        <a href="find-us.html" class="info-directions" aria-label="Get directions to Pori Cardiff">
+          Get directions
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <line x1="2" y1="14" x2="14" y2="2"/>
+            <polyline points="6,2 14,2 14,10"/>
+          </svg>
+        </a>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ========== LARGE GROUP SECTION ========== -->
+  <section class="group-section" aria-labelledby="group-heading">
+    <div class="group-inner">
+      <div class="group-text fade-up">
+        <h2 class="group-heading" id="group-heading">Feeding a bigger crowd?</h2>
+        <p class="group-sub">For large groups of 9 or more, please contact us directly so we can make sure everything is ready for you.</p>
+      </div>
+      <a href="contact.html" class="btn-contact fade-up d1">Get in touch</a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="index.html" aria-label="Pori Cardiff home">
+          <img src="images/pori-logo.png" alt="Pori Cardiff" width="48" height="48" loading="lazy" onerror="this.style.display='none'">
+        </a>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">Find us</p>
+        <address>4 Trade Street<br>Cardiff, CF10 5DR<br>Wales</address>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">Follow</p>
+        <a class="footer-social-link" href="https://www.instagram.com/pori.cardiff/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a class="footer-social-link" href="https://www.facebook.com/p/Poricardiff-61583068355217/" target="_blank" rel="noopener noreferrer">Facebook</a>
+      </div>
+    </div>
+    <div class="footer-base">
+      <p>Pori Cardiff. All rights reserved.</p>
+      <p>4 Trade Street, Cardiff, CF10 5DR</p>
+    </div>
+  </footer>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* --------------------------------------------------
+         NAV OVERLAY — open / close / Escape key
+      -------------------------------------------------- */
+      var menuBtn    = document.getElementById('menu-btn');
+      var closeBtn   = document.getElementById('nav-overlay-close');
+      var overlay    = document.getElementById('nav-overlay');
+      var lastFocus  = null;
+
+      function openOverlay() {
+        lastFocus = document.activeElement;
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden', 'false');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        closeBtn.focus();
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeOverlay() {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden', 'true');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        if (lastFocus) { lastFocus.focus(); }
+      }
+
+      menuBtn.addEventListener('click', openOverlay);
+      closeBtn.addEventListener('click', closeOverlay);
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+          closeOverlay();
+        }
+      });
+
+      /* --------------------------------------------------
+         FADE-UP — IntersectionObserver
+      -------------------------------------------------- */
+      var fadeEls = document.querySelectorAll('.fade-up');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        fadeEls.forEach(function (el) { io.observe(el); });
+      } else {
+        /* Fallback: just show everything */
+        fadeEls.forEach(function (el) { el.classList.add('visible'); });
+      }
+
+      /* --------------------------------------------------
+         RESERVATION FORM — submit -> confirmation swap
+      -------------------------------------------------- */
+      var form    = document.getElementById('reserve-form');
+      var confirm = document.getElementById('form-confirm');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        form.style.display = 'none';
+        confirm.style.display = 'block';
+        confirm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+
+    })();
+  </script>
+
+  <script src="chat.js"></script>
+</body>
+</html>
